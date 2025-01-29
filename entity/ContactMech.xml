@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    <entity entity-name="ContactMech" package="oms.contact">
+        <field name="contactMechId" type="id" is-pk="true"/>
+        <field name="contactMechTypeEnumId" type="id" is-pk="true"/>
+        <field name="infoString" type="text-medium"/>
+        <relationship type="one" title="ContactMechType" related="Enumeration" short-alias="type">
+            <key-map field-name="contactMechTypeEnumId"/>
+        </relationship>
+        <relationship type="one-nofk" related="PostalAddress" short-alias="postalAdd"/>
+        <relationship type="one-nofk" related="TelecomAddress" short-alias="telecomAdd"/>
+        <relationship type="many" related="PartyContactMech" short-alias="partyContactMech"/>
+        <seed-data>
+            <moqui.basic.EnumerationType description="tells about type of contact mech" enumTypeId="contactMechType"/>
+            <moqui.basic.Enumeration description="contact mech is type of Postal Address" enumId="POSTAL_ADDRESS" enumTypeId="contactMechType" />
+            <moqui.basic.Enumeration description="contact mech is type of Telecom Address" enumId="TELECOM_ADDRESS" enumTypeId="contactMechType"/>
+            <moqui.basic.Enumeration description="contact mech is type of email address" enumId="EMAIL_ADDRESS" enumTypeId="contactMechType"/>
+        </seed-data>
+        <master>
+            <detail relationship="type"/>
+            <detail relationship="postalAdd"/>
+            <detail relationship="telecomAdd"/>
+            <detail relationship="partyContactMech"/>
+        </master>
+    </entity>
+    <entity entity-name="PostalAddress" package="oms.contact">
+        <field name="contactMechId" type="id" is-pk="true"/>
+        <field name="tName" type="text-medium"/>
+        <field name="attnName" type="text-medium"/>
+        <field name="address1" type="text-medium"/>
+        <field name="address2" type="text-medium"/>
+        <field name="city" type="text-medium"/>
+        <field name="postalAddress" type="number-integer"/>
+        <relationship type="one" related="ContactMech"/>
+    </entity>
+    <entity entity-name="TelecomAddress" package="oms.customer">
+        <field name="contactMechId" type="id" is-pk="true"/>
+        <field name="countryCode" type="number-integer"/>
+        <field name="areaCode" type="number-integer"/>
+        <field name="contactNumber" type="number-integer"/>
+        <relationship type="one" related="ContactMech"/>
+    </entity>
+    <entity entity-name="ContactMechPurpose" package="oms.contact">
+        <field name="contactMechPurposeId" type="id" is-pk="true"/>
+        <field name="contactMechTypeEnumId" type="id"/>
+        <relationship type="one" title="ContactMechType" related="Enumeration">
+            <key-map field-name="contactMechTypeEnumId"/>
+        </relationship>
+        <relationship type="many" related="PartyContactMech"/>
+        <seed-data>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="EmailPrimary" contactMechTypeEnumId="EMAIL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="EmailSecondary" contactMechTypeEnumId="EMAIL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="EmailShipping" contactMechTypeEnumId="EMAIL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="EmailBilling" contactMechTypeEnumId="EMAIL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="EmailHome" contactMechTypeEnumId="EMAIL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="EmailOffice" contactMechTypeEnumId="EMAIL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="EmailWork" contactMechTypeEnumId="EMAIL_ADDRESS"/>
+
+
+            <oms.contact.ContactMechPurpose contactMechPurposeId="TelecomPrimary" contactMechTypeEnumId="TELECOM_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="TelecomSecondary" contactMechTypeEnumId="TELECOM_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="TelecomShipping" contactMechTypeEnumId="TELECOM_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="TelecomBilling" contactMechTypeEnumId="TELECOM_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="TelecomHome" contactMechTypeEnumId="TELECOM_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="TelecomOffice" contactMechTypeEnumId="TELECOM_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="TelecomWork" contactMechTypeEnumId="TELECOM_ADDRESS"/>
+
+            <oms.contact.ContactMechPurpose contactMechPurposeId="PostalOffice" contactMechTypeEnumId="POSTAL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="PostalPrimary" contactMechTypeEnumId="POSTAL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="PostalSecondary" contactMechTypeEnumId="POSTAL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="PostalShipping" contactMechTypeEnumId="POSTAL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="PostalBilling" contactMechTypeEnumId="POSTAL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="PostalHome" contactMechTypeEnumId="POSTAL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="PostalOffice" contactMechTypeEnumId="POSTAL_ADDRESS"/>
+            <oms.contact.ContactMechPurpose contactMechPurposeId="PostalWork" contactMechTypeEnumId="POSTAL_ADDRESS"/>
+        </seed-data>
+
+    </entity>
+
+    <entity entity-name="PartyContactMech" package="oms.contact">
+        <field name="partyId" type="id" is-pk="true"/>
+        <field name="contactMechId" type="id" is-pk="true"/>
+        <field name="contactMechPurposeId" type="id" is-pk="true"/>
+        <field name="fromDate" type="date-time" is-pk="true"/>
+        <field name="thruDate" type="date-time"/>
+        <relationship type="one" related="Party"/>
+        <relationship type="one" related="ContactMech"/>
+        <relationship type="one" related="ContactMechPurpose"/>
+    </entity>
+</entities>

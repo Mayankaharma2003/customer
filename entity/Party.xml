@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    <entity entity-name="Party" package="oms.party">
+        <field name="partyId" type="id" is-pk="true"/>
+        <field name="partyTypeEnumId" type="id"/>
+        <relationship type="one" related="Enumeration" short-alias="type">
+            <key-map field-name="partyTypeEnumId"/>
+        </relationship>
+        <relationship type="many" related="PartyRole" short-alias="partyRole"/>
+        <relationship type="one-nofk" related="Organization" short-alias="organization"/>
+        <relationship type="one-nofk" related="Person" short-alias="person"/>
+        <relationship type="many" related="PartyContactMech" short-alias="partyContact"/>
+        <seed-data>
+            <moqui.basic.EnumerationType description="party type represent party belongs to" enumTypeId="PartyType"/>
+            <moqui.basic.Enumeration description="Party as PERSON" enumId="PERSON" enumTypeId="PartyType"/>
+            <moqui.basic.Enumeration description="Party as ORGANIZATION" enumId="ORGANIZATION" enumTypeId="PartyType"/>
+        </seed-data>
+
+        <master name="Party">
+            <detail relationship="type"/>
+            <detail relationship="organization"/>
+            <detail relationship="person"/>
+            <detail relationship="partyRole"/>
+            <detail relationship="partyContact"/>
+        </master>
+    </entity>
+
+    <entity entity-name="Organization" package="oms.party">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="organizationName" type="text-medium" />
+        <relationship type="one" related="Party"/>
+    </entity>
+    <entity entity-name="Person" package="oms.party">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="firstName" type="text-medium" />
+        <field name="lastName" type="text-medium" />
+        <field name="birthDate" type="date" />
+        <relationship type="one" related="Party"/>
+    </entity>
+
+
+    <entity entity-name="RoleType" package="oms.party">
+        <field name="roleTypeId" type="id" is-pk="true" />
+        <field name="description" type="text-medium"/>
+        <relationship type="many" related="PartyRole"/>
+        <seed-data>
+            <oms.party.RoleType description="EMPLOYEE" roleTypeId="EMPLOYEE"/>
+            <oms.party.RoleType description="EMPLOYER" roleTypeId="EMPLOYER"/>
+            <oms.party.RoleType description="CUSTOMER" roleTypeId="CUSTOMER"/>
+            <oms.party.RoleType description="COLLEGE" roleTypeId="COLLEGE"/>
+            <oms.party.RoleType description="STUDENT" roleTypeId="STUDENT"/>
+            <oms.party.RoleType description="STAFF" roleTypeId="STAFF"/>
+        </seed-data>
+    </entity>
+
+    <!--    Partyrole ek association table he jo many to many relationship stablish kr rha he party aur uske roles ke bich-->
+    <entity entity-name="PartyRole" package="oms.party">
+        <field name="partyId" type="id" is-pk="true" />
+        <field name="roleTypeId" type="id" is-pk="true" />
+        <relationship type="one" related="Party"/>
+        <relationship type="one" related="RoleType"/>
+    </entity>
+
+</entities>
