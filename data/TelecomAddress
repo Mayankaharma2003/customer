@@ -1,0 +1,7 @@
+oms.contact.TelecomAddress,demo
+contactMechId,countryCode,areaCode,contactNumber
+CM665,91,212,5551234
+CM221,91,415,5555678
+CM423,91,305,5558765
+CM310,44,20,2071234567
+CM743,91,646,5559087

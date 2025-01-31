@@ -3,7 +3,7 @@
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
     <entity entity-name="ContactMech" package="oms.contact">
         <field name="contactMechId" type="id" is-pk="true"/>
-        <field name="contactMechTypeEnumId" type="id" is-pk="true"/>
+        <field name="contactMechTypeEnumId" type="id"/>
         <field name="infoString" type="text-medium"/>
         <relationship type="one" title="ContactMechType" related="Enumeration" short-alias="type">
             <key-map field-name="contactMechTypeEnumId"/>
@@ -85,7 +85,9 @@
         <field name="fromDate" type="date-time" is-pk="true"/>
         <field name="thruDate" type="date-time"/>
         <relationship type="one" related="Party"/>
-        <relationship type="one" related="ContactMech"/>
+        <relationship type="one" related="ContactMech">
+            <key-map field-name="contactMechId" related="contactMechId"/>
+        </relationship>
         <relationship type="one" related="ContactMechPurpose"/>
     </entity>
 </entities>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+    <service verb="find" type="script" location="component://customer/script/FindCustomer.groovy">
+        <in-parameters>
+            <parameter name="partyIdListPageSize" type="Integer"/>
+            <parameter name="partyIdListPageIndex" type="Integer"/>
+            <parameter name="infoString" entity-name="ContactMech"/>
+            <parameter name="firstName" entity-name="Person"/>
+            <parameter name="isEmailPrimary" type="String"/>
+            <parameter name="lastName" entity-name="Person"/>
+            <parameter name="contactNumber" entity-name="TelecomAddress"/>
+            <auto-parameters entity-name="PostalAddress" include="nonpk"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyIdList" type="list" required="true"/>
+            <parameter name="partyIdListCount" type="Integer"/>
+            <parameter name="partyIdListPageSize" type="Integer"/>
+            <parameter name="partyIdListPageMaxIndex" type="Integer"/>
+            <parameter name="partyIdListPageIndex" type="Integer"/>
+            <parameter name="partyIdListPageRangeLow" type="Integer"/>
+            <parameter name="partyIdListPageRangeHigh" type="Integer"/>
+        </out-parameters>
+    </service>
+    
+    <service verb="create" type="script" location="component://customer/script/CreateCustomer.groovy">
+        <in-parameters>
+            <auto-parameters entity-name="Person" include="nonpk"/>
+            <parameter name="infoString" entity-name="ContactMech"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId"  required="true"/>
+        </out-parameters>
+    </service>
+
+
+    <service verb="store" type="script" location="component://customer/script/UpdateCustomer.groovy">
+        <in-parameters>
+            <auto-parameters entity-name="ContactMech" include="nonpk" />
+            <auto-parameters entity-name="ContactMechPurpose" include="pk" />
+            <parameter name="secondInfoString" type="String"/>
+            <auto-parameters entity-name="TelecomAddress" include="nonpk"/>
+            <auto-parameters entity-name="PostalAddress" include="nonpk"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="contactMechId"/>
+        </out-parameters>
+    </service>
+</services>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+    <view-entity entity-name="FindCustomerView" package="oms.person">
+        <member-entity entity-alias="pa" entity-name="Party"/>
+        <member-entity entity-alias="pr" entity-name="Person" join-from-alias="pa">
+            <key-map field-name="partyId"/>
+        </member-entity>
+        <member-entity entity-alias="prr" entity-name="PartyRole" join-from-alias="pa">
+            <key-map field-name="partyId"/>
+            <entity-condition>
+                <econdition entity-alias="prr" field-name="roleTypeId" value="CUSTOMER"/>
+            </entity-condition>
+        </member-entity>
+        <member-entity entity-alias="pca" entity-name="PartyContactMech" join-from-alias="pa">
+            <key-map field-name="partyId"/>
+            <entity-condition>
+                <date-filter/>
+            </entity-condition>
+        </member-entity>
+        <member-entity entity-alias="cm" entity-name="ContactMech" join-from-alias="pca">
+            <key-map field-name="contactMechId"/>
+        </member-entity>
+        <member-entity entity-alias="cmp" entity-name="ContactMechPurpose" join-from-alias="pca">
+            <key-map field-name="contactMechPurposeId"/>
+        </member-entity>
+        <member-entity entity-alias="tn" entity-name="TelecomAddress" join-from-alias="pca" join-optional="true">
+            <key-map field-name="contactMechId"/>
+        </member-entity>
+        <member-entity entity-alias="paa" entity-name="PostalAddress" join-from-alias="pca" join-optional="true">
+            <key-map field-name="contactMechId"/>
+        </member-entity>
+        <alias name="partyId"  entity-alias="pa"/>
+        <alias name="firstName" entity-alias="pr"/>
+        <alias name="lastName" entity-alias="pr"/>
+        <alias name="contactMechId" entity-alias="cm"/>
+        <alias name="contactMechTypeEnumId" entity-alias="cm"/>
+        <alias name="contactMechPurposeId" entity-alias="pca"/>
+        <alias name="infoString" entity-alias="cm"/>
+        <alias name="countryCode" entity-alias="tn"/>
+        <alias name="areaCode" entity-alias="tn"/>
+        <alias name="contactNumber" entity-alias="tn"/>
+        <alias name="city" entity-alias="paa"/>
+        <alias name="tName" entity-alias="paa"/>
+        <alias name="attnName" entity-alias="paa"/>
+        <alias name="address1" entity-alias="paa"/>
+        <alias name="address2" entity-alias="paa"/>
+        <alias name="postalAddress" entity-alias="paa"/>
+        <alias name="fromDate" entity-alias="pca"/>
+        <alias name="thruDate" entity-alias="pca"/>
+    </view-entity>
+</entities>

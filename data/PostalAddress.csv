@@ -1,0 +1,7 @@
+oms.contact.PostalAddress,demo
+contactMechId,tName,attnName,address1,address2,city,postalAddress
+CM468,John Doe,,1234 Elm St,,Springfield,123456
+CM823,Alice Johnson,,4567 Maple Ave,,Greenwich,654321
+CM518,Michael Smith,,7890 Oak Dr,,Brooklyn,112233
+CM800,Lisa White,,3456 Birch Rd,,Los Angeles,998877
+CM986,George Brown,,9081 Pine Ln,,Chicago,776655
